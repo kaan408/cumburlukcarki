@@ -1,768 +1,835 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GG Kaan Çark Çevir</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        ggred: '#dc2626',
-                        ggdark: '#0f0f13',
-                        ggcard: '#18181f',
-                        gggold: '#fbbf24',
-                        ggblue: '#38bdf8'
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome for gamer icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0b0f;
-            color: #f3f4f6;
-            background-image: radial-gradient(circle at 50% 10%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
-                              radial-gradient(circle at 10% 90%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
-            min-height: 100vh;
-        }
-        .gaming-font {
-            font-family: 'Cinzel', serif;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #18181f;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #dc2626;
-            border-radius: 4px;
-        }
-        canvas {
-            filter: drop-shadow(0 10px 25px rgba(220, 38, 38, 0.3));
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GG Kaan Çark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&family=Rubik+Distressed&family=Rubik+Glitch&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070505; --card:#120909; --card2:#1a0d0d; --line:#3a1414; --line2:#5a1a1a;
+  --text:#f5f5f5; --muted:#b39a9a; --red:#ff1a1a; --red2:#c00000; --dark-red:#5c0000;
+  --font:"Rubik","Segoe UI",Roboto,Ubuntu,sans-serif;
+  --grunge:"Rubik Distressed","Rubik","Impact",sans-serif;
+  --glitch:"Rubik Glitch","Rubik Distressed","Impact",sans-serif;
+  --glow:0 0 6px rgba(255,26,26,.9),0 0 22px rgba(255,26,26,.55);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:500 14px/1.45 var(--font);color:var(--text);background:var(--bg);overflow:hidden}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* ================= ÜST BAR ================= */
+header{height:64px;display:flex;align-items:center;gap:14px;padding:0 20px;background:linear-gradient(180deg,#1a0707,#0d0505);border-bottom:2px solid var(--red2);box-shadow:0 2px 18px rgba(255,0,0,.25)}
+.hlogo{font:28px var(--grunge);letter-spacing:.02em;transform:skewX(-8deg);white-space:nowrap}
+.hlogo b{font-weight:400;color:var(--red);text-shadow:var(--glow)}
+header .sp{flex:1}
+.hint{color:var(--muted);font-size:12px}
+kbd{font:700 11px var(--font);padding:1px 6px;border-radius:5px;background:#000;border:1px solid var(--line2);color:#ddd}
+.hbtn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;border:1px solid var(--line2);background:#150808;font-weight:700;font-size:13px}
+.hbtn:hover{border-color:var(--red);box-shadow:0 0 12px rgba(255,26,26,.35)}
+.hbtn.hot{background:var(--red2);border-color:var(--red);box-shadow:var(--glow)}
+
+/* ================= PANEL ================= */
+.app{display:grid;grid-template-columns:410px 1fr;height:calc(100% - 64px)}
+aside{background:linear-gradient(180deg,#110707,#0a0505);border-right:2px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;padding:13px 4px;color:var(--muted);font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-bottom:3px solid transparent}
+.tabs button.on{color:#fff;border-bottom-color:var(--red);text-shadow:0 0 10px rgba(255,26,26,.8)}
+.pane{padding:16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.pane::-webkit-scrollbar{width:6px}.pane::-webkit-scrollbar-thumb{background:var(--red2);border-radius:3px}
+.lbl{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row{display:flex;gap:8px}
+.inp{flex:1;min-width:0;background:#000;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;outline:none}
+.inp:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,26,26,.18)}
+.inp.w{flex:none;width:74px;text-align:center}
+textarea.inp{resize:vertical;min-height:130px;width:100%}
+.btn{border:1px solid var(--line2);background:#180a0a;border-radius:10px;padding:10px 14px;font-weight:900;font-size:13px;white-space:nowrap}
+.btn:hover{border-color:var(--red)}
+.btn.red{background:linear-gradient(180deg,#ff2a2a,#b80000);border-color:#ff4d4d;color:#fff;box-shadow:0 0 14px rgba(255,26,26,.4)}
+.btn.danger{color:#ff9b9b;background:#240a0a}
+.btn.full{width:100%}
+.link{background:none;border:0;color:var(--red);font-weight:900;font-size:12px;padding:0;letter-spacing:0;text-transform:none}
+.link:hover{text-shadow:0 0 8px rgba(255,26,26,.8)}
+.list{display:flex;flex-direction:column;gap:6px}
+.item{display:flex;align-items:center;gap:8px;background:#000;border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 10px}
+.item:hover{border-color:var(--line2)}
+.dot{width:12px;height:12px;border-radius:3px;flex:none;box-shadow:0 0 6px currentColor}
+.item .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:text;font-weight:700}
+.item .e{flex:1;min-width:0;background:#120707;border:1px solid var(--red);border-radius:6px;padding:3px 6px;outline:none}
+.item .wi{width:52px;background:#120707;border:1px solid var(--line2);border-radius:7px;padding:4px 4px;text-align:center;outline:none;font-weight:700}
+.item .wi:focus{border-color:var(--red)}
+.pct{width:54px;text-align:right;font-weight:900;color:var(--red);font-variant-numeric:tabular-nums;font-size:13px}
+.ib{background:none;border:0;color:var(--muted);padding:4px 6px;border-radius:6px;font-size:14px;line-height:1}
+.ib:hover{color:#fff;background:#2a0f0f}
+.colhead{display:flex;gap:8px;padding:0 6px 0 30px;font-size:10px;font-weight:900;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.colhead span:first-child{flex:1}
+.empty{color:var(--muted);text-align:center;padding:18px 0;font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tpl{text-align:left;background:#000;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.tpl:hover{border-color:var(--red)}
+.tpl b{display:block;font-size:13px}
+.tpl span{display:block;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.set{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#000;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-weight:700}
+.set small{display:block;color:var(--muted);font-size:11px;font-weight:500}
+.sw{position:relative;width:40px;height:22px;flex:none}
+.sw input{opacity:0;position:absolute;inset:0;margin:0;cursor:pointer;z-index:1}
+.sw i{position:absolute;inset:0;border-radius:22px;background:#3a2020;transition:.2s}
+.sw i:after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--red);box-shadow:0 0 10px rgba(255,26,26,.6)}
+.sw input:checked+i:after{transform:translateX(18px)}
+.seg{display:flex;background:#000;border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;border-radius:7px;padding:7px 4px;font-weight:900;font-size:12px;color:var(--muted)}
+.seg button.on{background:#2a0c0c;color:#fff;box-shadow:inset 0 0 0 1px var(--red)}
+input[type=range]{width:100%;accent-color:var(--red)}
+.box{display:flex;flex-direction:column;gap:10px;background:#0c0606;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:#000;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--red);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat b.sm{font-size:15px;color:#fff;padding:4px 0}
+.stat span{color:var(--muted);font-size:11px}
+.hist{display:flex;justify-content:space-between;gap:10px;background:#000;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.hist .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.hist small{color:var(--muted);flex:none}
+.note{color:var(--muted);font-size:12px;line-height:1.55;background:#000;border:1px dashed var(--line2);border-radius:10px;padding:10px 12px}
+.note b{color:#fff}
+.note code{color:var(--red);word-break:break-all}
+
+/* ================= SAHNE (resimdeki tema) ================= */
+.stage{position:relative;container-type:size;overflow:hidden;min-height:0;
+  background:
+    radial-gradient(ellipse 60% 55% at 60% 30%,rgba(255,0,0,.22),transparent 70%),
+    radial-gradient(ellipse 40% 60% at 0% 100%,rgba(255,0,0,.25),transparent 70%),
+    radial-gradient(ellipse 40% 60% at 100% 100%,rgba(255,0,0,.2),transparent 70%),
+    radial-gradient(ellipse 120% 90% at 50% 50%,#1a0303 0%,#0a0101 60%,#000 100%)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
+.fx{position:absolute;pointer-events:none}
+
+/* piksel süsleri (köşeler) */
+.px{width:2.2cqmin;height:2.2cqmin;bottom:10cqmin;z-index:1}
+.px.l{left:2cqmin}
+.px.r{right:2cqmin}
+.px.l{box-shadow:
+  0 0 #fff,2.2cqmin 0 #ff1a1a,0 2.2cqmin #fff,2.2cqmin 2.2cqmin #fff,4.4cqmin 2.2cqmin #ff1a1a,0 4.4cqmin #ff1a1a,
+  2.2cqmin 4.4cqmin #fff,4.4cqmin 4.4cqmin #fff,6.6cqmin 4.4cqmin #b00000,0 6.6cqmin #fff,4.4cqmin 6.6cqmin #ff1a1a,
+  6.6cqmin 6.6cqmin #fff,8.8cqmin 6.6cqmin #ff1a1a,2.2cqmin -4.4cqmin #ff1a1a,0 -8.8cqmin #fff,4.4cqmin -2.2cqmin #fff}
+.px.r{box-shadow:
+  0 0 #fff,-2.2cqmin 0 #ff1a1a,0 2.2cqmin #ff1a1a,-2.2cqmin 2.2cqmin #fff,-4.4cqmin 2.2cqmin #fff,0 4.4cqmin #fff,
+  -2.2cqmin 4.4cqmin #ff1a1a,-4.4cqmin 4.4cqmin #fff,-6.6cqmin 4.4cqmin #fff,0 6.6cqmin #ff1a1a,-4.4cqmin 6.6cqmin #fff,
+  -6.6cqmin 6.6cqmin #b00000,-8.8cqmin 6.6cqmin #fff,0 -4.4cqmin #fff,-2.2cqmin -8.8cqmin #ff1a1a,0 -13.2cqmin #fff}
+
+/* sol üst: logo */
+.tl{position:absolute;left:3.5cqmin;top:3cqmin;z-index:6;display:flex;flex-direction:column;align-items:flex-start;gap:2.2cqmin}
+.logo{position:relative;font:10cqmin/1 var(--grunge);transform:rotate(-6deg) skewX(-6deg);white-space:nowrap;
+  color:#fff;text-shadow:0 .5cqmin 0 #3a0000,0 0 2cqmin rgba(255,0,0,.6);padding-top:3cqmin}
+.logo b{font-family:var(--glitch);font-weight:400;color:var(--red);text-shadow:0 0 1cqmin rgba(255,26,26,.9),0 0 3cqmin rgba(255,26,26,.6)}
+.logo svg{position:absolute;left:-.5cqmin;top:-1cqmin;width:7cqmin;transform:rotate(-8deg);filter:drop-shadow(0 0 1cqmin rgba(255,26,26,.9))}
+
+/* orta: çark + başlıklar */
+.scene{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2cqh 0 3cqh}
+.wheelbox{position:relative;width:min(56cqh,64cqw);aspect-ratio:1;flex:none}
+body.no-title .wheelbox{width:min(84cqh,80cqw)}
+.wheelbox::before{content:"";position:absolute;inset:-1.2%;border-radius:50%;
+  box-shadow:0 0 0 .5cqmin #ff2a2a,0 0 3cqmin 1cqmin rgba(255,26,26,.75),0 0 9cqmin 2cqmin rgba(255,0,0,.35),inset 0 0 3cqmin rgba(255,0,0,.6)}
+#wheel{position:relative;width:100%;height:100%;display:block;border-radius:50%;cursor:pointer}
+.pointer{position:absolute;left:50%;top:-6.5%;width:13%;transform:translateX(-50%);transform-origin:50% 15%;z-index:3;
+  filter:drop-shadow(0 0 1.2cqmin rgba(255,26,26,.95)) drop-shadow(0 .6cqmin 0 rgba(0,0,0,.6))}
+.pointer.tick{animation:tick .12s ease-out}
+@keyframes tick{0%{transform:translateX(-50%) rotate(0)}40%{transform:translateX(-50%) rotate(-12deg)}100%{transform:translateX(-50%) rotate(0)}}
+.hub{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:0;z-index:2;
+  background:
+    radial-gradient(circle at 33% 28%,rgba(255,255,255,1) 0 12%,transparent 34%),
+    repeating-conic-gradient(from 10deg,rgba(0,0,0,.05) 0 7deg,rgba(255,255,255,.05) 7deg 13deg),
+    radial-gradient(circle at 40% 35%,#ffffff,#e4e4e4 45%,#a9a9a9 85%,#7a7a7a);
+  box-shadow:0 0 0 .5cqmin #1a0000,0 1cqmin 3cqmin rgba(0,0,0,.7),inset 0 -1.2cqmin 2cqmin rgba(0,0,0,.25);
+  color:#b30000;font:5.5cqmin/1 var(--grunge);text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.hub:hover{filter:brightness(1.06)}
+.hub:disabled{cursor:default;filter:none}
+
+.titles{text-align:center;margin-top:1.2cqh;display:flex;flex-direction:column;align-items:center;line-height:.9}
+.t1{font:11cqmin/1 var(--grunge);color:#fff;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;
+  text-shadow:0 .5cqmin 0 #8a0000,0 1cqmin 0 #3a0000,0 0 2.5cqmin rgba(255,0,0,.7);animation:glitch 7s steps(1) infinite}
+.t2{font:10cqmin/1 var(--glitch);color:var(--red);text-transform:uppercase;white-space:nowrap;margin-top:-.8cqmin;transform:rotate(-2deg);
+  text-shadow:0 0 1cqmin rgba(255,26,26,.95),0 0 3cqmin rgba(255,26,26,.6),0 .5cqmin 0 #2a0000}
+.tag{margin-top:1.6cqmin;display:flex;align-items:center;gap:1.5cqmin;font:4.2cqmin/1 var(--grunge);color:#fff;text-transform:uppercase;white-space:nowrap;
+  padding:1cqmin 3cqmin;border-top:.35cqmin solid var(--red);border-bottom:.35cqmin solid var(--red);
+  background:linear-gradient(90deg,transparent,rgba(160,0,0,.75) 15%,rgba(160,0,0,.75) 85%,transparent);box-shadow:0 0 2cqmin rgba(255,0,0,.35)}
+.tag:before,.tag:after{content:"";border-top:1.1cqmin solid transparent;border-bottom:1.1cqmin solid transparent}
+.tag:before{border-left:1.6cqmin solid var(--red)}
+.tag:after{border-right:1.6cqmin solid var(--red)}
+@keyframes glitch{0%,91%,100%{transform:none}92%{transform:translate(.6cqmin,-.3cqmin) skewX(-6deg)}93.5%{transform:translate(-.8cqmin,.2cqmin)}95%{transform:translate(.3cqmin,0) skewX(4deg)}}
+
+/* kazanan */
+.winner{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;z-index:7;
+  min-width:78%;max-width:118%;text-align:center;padding:3cqmin 4cqmin 3.4cqmin;border-radius:2cqmin;
+  background:linear-gradient(180deg,rgba(30,0,0,.97),rgba(5,0,0,.97));border:.5cqmin solid var(--red);
+  box-shadow:0 0 0 1cqmin rgba(0,0,0,.6),0 0 4cqmin rgba(255,26,26,.8),inset 0 0 4cqmin rgba(255,0,0,.3);
+  transition:transform .35s cubic-bezier(.2,1.6,.4,1),opacity .25s}
+.winner.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;cursor:pointer}
+.winner small{display:block;font:5cqmin/1 var(--glitch);color:var(--red);letter-spacing:.08em;text-shadow:0 0 1.2cqmin rgba(255,26,26,.9)}
+.winner div{font:9cqmin/1.05 var(--grunge);color:#fff;margin-top:1.6cqmin;overflow-wrap:normal;
+  text-shadow:0 .5cqmin 0 #8a0000,0 0 2.5cqmin rgba(255,0,0,.7)}
+.winner em{display:block;font:700 2.6cqmin/1.3 var(--font);font-style:normal;color:#ffb3b3;margin-top:1.6cqmin}
+
+.spin{position:absolute;right:3cqmin;bottom:3cqmin;z-index:9;padding:1.8cqmin 4cqmin;border-radius:1.6cqmin;border:.3cqmin solid #ff5a5a;
+  background:linear-gradient(180deg,#ff2a2a,#a80000);color:#fff;font:5cqmin/1 var(--grunge);box-shadow:0 0 2.5cqmin rgba(255,26,26,.7);transform:skewX(-6deg)}
+.spin:hover{filter:brightness(1.1)}
+.spin:disabled{opacity:.6;cursor:default}
+
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);opacity:0;z-index:60;pointer-events:none;
+  background:#120606;border:1px solid var(--red);box-shadow:0 0 16px rgba(255,26,26,.5);padding:10px 18px;border-radius:12px;font-weight:700;transition:.25s;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ================= YAYIN MODU ================= */
+body.stream header,body.stream aside,body.stream .spin{display:none!important}
+body.stream .app{grid-template-columns:1fr;height:100%}
+body.bg-transparent.stream,body.bg-transparent.stream .stage,body.bg-green.stream .stage{background:transparent}
+body.bg-green.stream{background:#00b140}
+body.stream:not(.bg-theme) .stage::after,body.stream:not(.bg-theme) .px{display:none}
+body.no-logo .logo,body.no-title .titles,body.no-tag .tag,body.no-sub .t2{display:none!important}
+
+@media (max-width:900px){
+  body{overflow:auto}
+  .app{grid-template-columns:1fr;height:auto}
+  aside{border-right:0;border-bottom:2px solid var(--line)}
+  .stage{height:78vh}
+  .hint{display:none}
+}
+</style>
 </head>
-<body class="flex flex-col min-h-screen overflow-x-hidden">
+<body>
 
-    <header class="bg-ggcard border-b border-red-900/40 px-6 py-4 flex flex-wrap items-center justify-between sticky top-0 z-50 shadow-lg gap-4">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-ggred to-gggold flex items-center justify-center shadow-md shadow-red-600/50 border border-gggold">
-                <i class="fa-solid fa-crown text-black text-lg"></i>
-            </div>
-            <div>
-                <h1 class="gaming-font text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gggold via-red-500 to-ggblue">GG KAAN ÇARK</h1>
-                <span class="text-xs text-gray-400 font-semibold tracking-widest uppercase">Minecraft & Gaming Wheel</span>
-            </div>
+<header>
+  <div class="hlogo">GG <b>KAAN</b></div>
+  <div class="sp"></div>
+  <span class="hint"><kbd>Boşluk</kbd> çevir · <kbd>H</kbd> yayın modu</span>
+  <button class="hbtn" id="soundBtn" type="button">🔊 Ses Açık</button>
+  <button class="hbtn hot" id="streamBtn" type="button">📺 Yayın Modu</button>
+</header>
+
+<div class="app">
+  <aside>
+    <nav class="tabs">
+      <button type="button" data-tab="list" class="on">Liste</button>
+      <button type="button" data-tab="wheels">Çarklar</button>
+      <button type="button" data-tab="settings">Ayarlar</button>
+      <button type="button" data-tab="history">Geçmiş</button>
+    </nav>
+
+    <!-- LİSTE -->
+    <div class="pane" data-pane="list">
+      <div>
+        <div class="lbl" style="margin-bottom:6px"><span>Seçenek ekle</span><button class="link" type="button" id="bulkToggle">Toplu ekle</button></div>
+        <div class="row">
+          <input class="inp" id="newItem" maxlength="60" placeholder="Örn: Minecraft" autocomplete="off">
+          <input class="inp w" id="newW" type="number" min="0.1" step="any" value="1" title="Şans">
+          <button class="btn red" type="button" id="addBtn">Ekle</button>
         </div>
-        <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-300">
-            <a href="#" class="hover:text-gggold transition flex items-center gap-1.5"><i class="fa-solid fa-gamepad text-ggred"></i> Tüm Çarklar</a>
-            <a href="#" class="hover:text-gggold transition flex items-center gap-1.5"><i class="fa-solid fa-fire text-ggred"></i> Rastgele Seç</a>
-            <button onclick="openSavedWheelsModal()" class="hover:text-gggold transition flex items-center gap-1.5 text-left bg-transparent border-0 cursor-pointer font-semibold text-sm text-gray-300">
-                <i class="fa-solid fa-bookmark text-gggold"></i> Kayıtlı Çarklar
-            </button>
-            <a href="#" class="hover:text-gggold transition flex items-center gap-1.5"><i class="fa-solid fa-gear text-ggblue"></i> Etkinlik Odası</a>
-        </nav>
-        <div class="flex items-center space-x-3">
-            <button onclick="toggleSound()" id="soundBtn" class="bg-ggdark hover:bg-neutral-800 border border-neutral-700 p-2.5 rounded-xl text-gggold transition flex items-center gap-2 text-xs font-bold">
-                <i id="soundIcon" class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">Sesler Açık</span>
-            </button>
-            <div class="w-9 h-9 rounded-full bg-neutral-800 border border-red-600/50 flex items-center justify-center text-gggold font-bold overflow-hidden shadow">
-                <img src="https://placehold.co/100x100/18181f/fbbf24?text=GK" alt="GG Kaan" class="w-full h-full object-cover">
-            </div>
+      </div>
+      <div id="bulkBox" class="hidden">
+        <textarea class="inp" id="bulkInput" placeholder="Her satıra bir seçenek. Şans vermek için: isim | şans&#10;Minecraft | 40&#10;Roblox | 40&#10;Sürpriz Oyun | 20"></textarea>
+        <div class="row" style="margin-top:8px;align-items:center">
+          <label style="flex:1;display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px"><input type="checkbox" id="bulkReplace"> Mevcut listeyi değiştir</label>
+          <button class="btn red" type="button" id="bulkAdd">Ekle</button>
         </div>
-    </header>
-
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
-        <section class="lg:col-span-5 bg-ggcard/90 backdrop-blur border border-red-900/30 rounded-2xl p-5 shadow-xl flex flex-col space-y-4">
-            <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
-                <h2 class="font-bold text-lg text-white flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-ggred"></i> Kontrol Paneli
-                </h2>
-                <span id="itemCountBadge" class="text-xs bg-red-600/20 text-red-400 border border-red-500/30 px-2.5 py-1 rounded-full font-bold">0 Seçenek</span>
-            </div>
-
-            <!-- Save Current Wheel Quick Bar -->
-            <div class="bg-ggdark border border-neutral-800 p-3 rounded-xl flex items-center gap-2">
-                <input type="text" id="saveWheelNameInput" placeholder="Çark Adı (Örn: Çekiliş 1)" class="flex-1 bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gggold transition">
-                <button onclick="saveCurrentWheel()" class="bg-amber-500 hover:bg-amber-400 text-black font-extrabold px-3 py-2 rounded-lg text-xs transition flex items-center gap-1 shadow">
-                    <i class="fa-solid fa-floppy-disk"></i> Çarkı Kaydet
-                </button>
-            </div>
-
-            <!-- Add new item input -->
-            <div class="space-y-1.5">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Yeni Seçenek Ekle</label>
-                <div class="flex gap-2">
-                    <input type="text" id="newItemInput" placeholder="Örn: Elmas Kılıç Kazan!" class="flex-1 bg-ggdark border border-neutral-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-600 transition">
-                    <button onclick="addItem()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-red-600/30 transition flex items-center gap-1.5 text-sm">
-                        <i class="fa-solid fa-plus"></i> Ekle
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quick Toggles -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-ggdark/60 border border-neutral-800 p-3 rounded-xl flex items-center justify-between">
-                    <span class="text-xs font-semibold text-gray-300">Ses Efektleri</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="soundToggle" checked class="sr-only peer" onchange="toggleSoundSetting(this)">
-                        <div class="w-9 h-5 bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-600"></div>
-                    </label>
-                </div>
-                <div class="bg-ggdark/60 border border-neutral-800 p-3 rounded-xl flex items-center justify-between">
-                    <span class="text-xs font-semibold text-gray-300">Konfeti Kutlaması</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="confettiToggle" checked class="sr-only peer" onchange="saveSettings()">
-                        <div class="w-9 h-5 bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gggold"></div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- List of options -->
-            <div class="space-y-2 flex-1">
-                <div class="flex justify-between items-center">
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Çark Listesi (<span id="listCount">0</span>)</label>
-                    <button onclick="resetDefaultItems()" class="text-xs text-ggblue hover:underline font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-rotate-right"></i> Varsayılana Dön
-                    </button>
-                </div>
-                <div id="itemListContainer" class="bg-ggdark border border-neutral-800 rounded-xl p-3 max-h-52 overflow-y-auto space-y-2">
-                    <!-- Dynamic items inserted via JS -->
-                </div>
-            </div>
-
-            <div class="pt-2 border-t border-neutral-800 flex gap-2">
-                <button onclick="shuffleItems()" class="flex-1 bg-neutral-800 hover:bg-neutral-700 text-gray-200 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-neutral-700">
-                    <i class="fa-solid fa-shuffle text-ggblue"></i> Karıştır
-                </button>
-                <button onclick="clearItems()" class="flex-1 bg-red-950/40 hover:bg-red-900/50 text-red-300 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-red-900/50">
-                    <i class="fa-solid fa-trash-can text-red-500"></i> Hepsini Sil
-                </button>
-            </div>
-        </section>
-
-        <section class="lg:col-span-7 bg-ggcard/90 backdrop-blur border border-red-900/30 rounded-2xl p-6 shadow-xl flex flex-col items-center justify-center relative min-h-[500px]">
-            
-            <div class="text-center mb-4">
-                <h3 class="gaming-font text-2xl font-black text-white tracking-wide">Çarkı Çevir, Kararı Şansa Bırak!</h3>
-                <p class="text-sm text-gray-400 mt-1">Çarkı çevirmek için ortadaki butona veya aşağıdaki büyük butona tıklayın.</p>
-            </div>
-
-            <!-- Wheel Container with Pointer -->
-            <div class="relative w-full max-w-[420px] aspect-square flex items-center justify-center my-4">
-                <!-- Pointer / Marker -->
-                <div class="absolute -top-3 z-30 drop-shadow-[0_4px_6px_rgba(220,38,38,0.6)]">
-                    <div class="w-8 h-10 bg-gradient-to-b from-gggold via-red-600 to-red-800 flex items-center justify-center text-white text-xs pt-1 shadow-lg border border-yellow-300 rounded-t-md">
-                        <i class="fa-solid fa-caret-down text-lg -mt-3"></i>
-                    </div>
-                </div>
-
-                <!-- Canvas Wheel -->
-                <div class="relative w-full h-full rounded-full border-4 border-gggold/60 shadow-2xl overflow-hidden bg-ggdark">
-                    <canvas id="wheelCanvas" class="w-full h-full cursor-pointer" onclick="spinWheel()"></canvas>
-                    
-                    <!-- Center Spin Button Overlay -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <button onclick="spinWheel()" id="centerSpinBtn" class="pointer-events-auto w-16 h-16 rounded-full bg-gradient-to-tr from-red-700 via-red-600 to-gggold text-white font-black shadow-[0_0_20px_rgba(220,38,38,0.8)] border-4 border-black flex items-center justify-center hover:scale-110 active:scale-95 transition transform duration-200 group">
-                            <i class="fa-solid fa-play text-xl ml-0.5 text-black group-hover:text-white transition"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Big Action Spin Button -->
-            <div class="w-full max-w-sm mt-4">
-                <button onclick="spinWheel()" id="mainSpinBtn" class="w-full bg-gradient-to-r from-red-600 via-red-500 to-gggold hover:from-red-500 hover:to-amber-400 text-black font-black text-lg py-4 rounded-2xl shadow-xl shadow-red-600/40 border border-yellow-400/50 transition transform active:scale-95 flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-dharmachakra text-2xl animate-spin"></i> ÇARKI ÇEVİR!
-                </button>
-            </div>
-
-        </section>
-
-    </main>
-
-    <div id="winnerModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-ggcard border-2 border-gggold rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-[0_0_50px_rgba(251,191,36,0.3)] transform scale-95 transition-transform duration-300 relative overflow-hidden" id="modalContent">
-            
-            <div class="absolute -top-12 -left-12 w-32 h-32 bg-red-600/20 rounded-full blur-2xl"></div>
-            <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-sky-500/20 rounded-full blur-2xl"></div>
-
-            <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-red-600 to-gggold mx-auto flex items-center justify-center mb-5 shadow-lg shadow-red-600/50 border-2 border-yellow-300 animate-bounce">
-                <i class="fa-solid fa-trophy text-black text-3xl"></i>
-            </div>
-
-            <span class="text-xs uppercase font-extrabold tracking-widest text-gggold">KAZANAN SEÇENEK</span>
-            <h2 id="winnerText" class="gaming-font text-3xl md:text-4xl font-black text-white mt-2 mb-6 drop-shadow-md">Seçenek 1</h2>
-
-            <div class="flex gap-3 justify-center">
-                <button onclick="closeModalAndRemove()" class="bg-neutral-800 hover:bg-neutral-700 text-gray-300 font-bold px-5 py-3 rounded-xl text-sm border border-neutral-700 transition flex items-center gap-2">
-                    <i class="fa-solid fa-trash-can text-red-500"></i> Listeden Sil
-                </button>
-                <button onclick="closeModal()" class="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-lg shadow-red-600/40 transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-check"></i> Harika!
-                </button>
-            </div>
-        </div>
+      </div>
+      <div class="lbl"><span>Çarktakiler (<span id="count">0</span>)</span><button class="link" type="button" id="equalBtn">Şansları eşitle</button></div>
+      <div class="colhead"><span>Seçenek</span><span style="width:52px;text-align:center">Şans</span><span style="width:54px;text-align:right">Olasılık</span><span style="width:26px"></span></div>
+      <div class="list" id="itemList"></div>
+      <div class="note">Şans sayısı büyüdükçe dilim büyür ve çıkma ihtimali artar. Sayıların toplamı <b>100</b> olursa her sayı doğrudan <b>yüzde</b> olur.</div>
+      <div class="grid2">
+        <button class="btn" type="button" id="shuffleBtn">🔀 Karıştır</button>
+        <button class="btn danger" type="button" id="clearBtn">🗑 Hepsini Sil</button>
+      </div>
     </div>
 
-    <!-- Saved Wheels Modal -->
-    <div id="savedWheelsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-ggcard border-2 border-neutral-700 rounded-3xl p-6 max-w-lg w-full mx-4 shadow-2xl relative">
-            <div class="flex items-center justify-between border-b border-neutral-800 pb-3 mb-4">
-                <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                    <i class="fa-solid fa-bookmark text-gggold"></i> Kayıtlı Çarklarım
-                </h3>
-                <button onclick="closeSavedWheelsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            
-            <div id="savedWheelsList" class="space-y-3 max-h-80 overflow-y-auto mb-4">
-                <!-- Dynamically populated saved wheels -->
-            </div>
-
-            <div class="flex justify-end">
-                <button onclick="closeSavedWheelsModal()" class="bg-neutral-800 hover:bg-neutral-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-xs border border-neutral-700 transition">
-                    Kapat
-                </button>
-            </div>
+    <!-- ÇARKLAR -->
+    <div class="pane hidden" data-pane="wheels">
+      <div>
+        <div class="lbl" style="margin-bottom:6px"><span>Bu çarkı kaydet</span></div>
+        <div class="row">
+          <input class="inp" id="saveName" maxlength="40" placeholder="Çark adı (örn: Random Oyun)">
+          <button class="btn red" type="button" id="saveBtn">Kaydet</button>
         </div>
+      </div>
+      <div class="lbl"><span>Kayıtlı çarklarım</span></div>
+      <div class="list" id="savedList"></div>
+      <div class="lbl"><span>Hazır çarklar</span></div>
+      <div class="grid2" id="tplList"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script>
-        const STORAGE_KEY_ITEMS = 'gg_kaan_wheel_items';
-        const STORAGE_KEY_SAVED = 'gg_kaan_saved_wheels';
-        const STORAGE_KEY_SETTINGS = 'gg_kaan_settings';
-
-        let defaultItems = [
-            "Seçenek 1",
-            "Seçenek 2",
-            "Seçenek 3",
-            "Seçenek 4",
-            "Seçenek 5",
-            "Seçenek 6",
-            "Seçenek 7",
-            "Seçenek 8"
-        ];
-
-        let items = [];
-        let currentAngle = 0;
-        let isSpinning = false;
-        let soundEnabled = true;
-        let lastWinner = "";
-
-        const canvas = document.getElementById('wheelCanvas');
-        const ctx = canvas.getContext('2d');
-
-        const wheelColors = [
-            '#dc2626', // Red
-            '#f59e0b', // Amber / Gold
-            '#38bdf8', // Light Blue
-            '#9333ea', // Purple
-            '#10b981', // Emerald
-            '#f97316', // Orange
-            '#ec4899', // Pink
-            '#6366f1'  // Indigo
-        ];
-
-        let audioCtx = null;
-
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playTickSound() {
-            if (!soundEnabled) return;
-            initAudio();
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.05);
-                
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.05);
-            } catch(e) {}
-        }
-
-        function playWinSound() {
-            if (!soundEnabled) return;
-            initAudio();
-            try {
-                const now = audioCtx.currentTime;
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((note, index) => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(note, now + index * 0.12);
-                    
-                    gain.gain.setValueAtTime(0.2, now + index * 0.12);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.12 + 0.3);
-                    
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    
-                    osc.start(now + index * 0.12);
-                    osc.stop(now + index * 0.12 + 0.3);
-                });
-            } catch(e) {}
-        }
-
-        // LocalStorage Management
-        function loadAppData() {
-            // Load items
-            const savedItems = localStorage.getItem(STORAGE_KEY_ITEMS);
-            if (savedItems) {
-                try {
-                    items = JSON.parse(savedItems);
-                } catch(e) {
-                    items = [...defaultItems];
-                }
-            } else {
-                items = [...defaultItems];
-            }
-
-            // Load settings
-            const savedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
-            if (savedSettings) {
-                try {
-                    const settings = JSON.parse(savedSettings);
-                    soundEnabled = settings.sound !== undefined ? settings.sound : true;
-                    document.getElementById('soundToggle').checked = soundEnabled;
-                    document.getElementById('confettiToggle').checked = settings.confetti !== undefined ? settings.confetti : true;
-                    updateSoundButtonUI();
-                } catch(e) {}
-            }
-        }
-
-        function saveItemsToStorage() {
-            localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(items));
-        }
-
-        function saveSettings() {
-            const sound = document.getElementById('soundToggle').checked;
-            const confettiVal = document.getElementById('confettiToggle').checked;
-            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify({ sound, confetti: confettiVal }));
-        }
-
-        function resizeCanvas() {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width * window.devicePixelRatio;
-            canvas.height = rect.height * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-            drawWheel();
-        }
-
-        function drawWheel() {
-            const width = canvas.width / window.devicePixelRatio;
-            const height = canvas.height / window.devicePixelRatio;
-            const radius = Math.min(width, height) / 2 - 10;
-            const centerX = width / 2;
-            const centerY = height / 2;
-
-            ctx.clearRect(0, 0, width, height);
-
-            if (items.length === 0) {
-                ctx.save();
-                ctx.fillStyle = '#9ca3af';
-                ctx.font = 'bold 14px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('Lütfen seçenek ekleyin', centerX, centerY);
-                ctx.restore();
-                return;
-            }
-
-            const sliceAngle = (2 * Math.PI) / items.length;
-
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(currentAngle);
-
-            for (let i = 0; i < items.length; i++) {
-                const startAngle = i * sliceAngle;
-                const endAngle = (i + 1) * sliceAngle;
-
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.arc(0, 0, radius, startAngle, endAngle);
-                ctx.closePath();
-
-                ctx.fillStyle = wheelColors[i % wheelColors.length];
-                ctx.fill();
-                ctx.strokeStyle = '#0f0f13';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.rotate(startAngle + sliceAngle / 2);
-                ctx.textAlign = 'right';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold ' + Math.max(11, Math.min(16, 160 / items.length)) + 'px Inter, sans-serif';
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                ctx.shadowBlur = 4;
-                
-                let text = items[i];
-                if (text.length > 18) {
-                    text = text.substring(0, 16) + '...';
-                }
-
-                ctx.fillText(text, radius - 25, 0);
-                ctx.restore();
-            }
-
-            ctx.restore();
-        }
-
-        function spinWheel() {
-            if (isSpinning || items.length === 0) return;
-            isSpinning = true;
-
-            const spinBtn1 = document.getElementById('mainSpinBtn');
-            const spinBtn2 = document.getElementById('centerSpinBtn');
-            spinBtn1.disabled = true;
-            spinBtn2.disabled = true;
-            spinBtn1.classList.add('opacity-50', 'cursor-not-allowed');
-
-            const minSpins = 5;
-            const extraSpins = Math.random() * 5;
-            const totalRotations = (minSpins + extraSpins) * 2 * Math.PI;
-            const targetAngle = currentAngle + totalRotations + (Math.random() * 2 * Math.PI);
-
-            const duration = 4000;
-            const startTime = performance.now();
-            const startAngle = currentAngle;
-            let lastTickSlice = -1;
-
-            function animateSpin(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                currentAngle = startAngle + (targetAngle - startAngle) * easeOut;
-
-                const sliceAngle = (2 * Math.PI) / items.length;
-                const normalizedAngle = (currentAngle + Math.PI / 2) % (2 * Math.PI);
-                const currentSlice = Math.floor((2 * Math.PI - normalizedAngle) % (2 * Math.PI) / sliceAngle);
-
-                if (currentSlice !== lastTickSlice) {
-                    playTickSound();
-                    lastTickSlice = currentSlice;
-                }
-
-                drawWheel();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animateSpin);
-                } else {
-                    isSpinning = false;
-                    spinBtn1.disabled = false;
-                    spinBtn2.disabled = false;
-                    spinBtn1.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                    determineWinner();
-                }
-            }
-
-            requestAnimationFrame(animateSpin);
-        }
-
-        function determineWinner() {
-            const sliceAngle = (2 * Math.PI) / items.length;
-            const normalizedAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI))) % (2 * Math.PI);
-            const winningIndex = Math.floor(normalizedAngle / sliceAngle) % items.length;
-
-            lastWinner = items[winningIndex];
-            playWinSound();
-
-            const confettiEnabled = document.getElementById('confettiToggle').checked;
-            if (confettiEnabled) {
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.6 },
-                    colors: ['#dc2626', '#fbbf24', '#38bdf8', '#ffffff']
-                });
-            }
-
-            showModal(lastWinner);
-        }
-
-        function showModal(winner) {
-            const modal = document.getElementById('winnerModal');
-            const modalContent = document.getElementById('modalContent');
-            const winnerText = document.getElementById('winnerText');
-
-            winnerText.textContent = winner;
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('winnerModal');
-            const modalContent = document.getElementById('modalContent');
-            modal.classList.add('opacity-0');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        function closeModalAndRemove() {
-            items = items.filter(item => item !== lastWinner);
-            saveItemsToStorage();
-            updateItemListUI();
-            drawWheel();
-            closeModal();
-        }
-
-        function updateItemListUI() {
-            const container = document.getElementById('itemListContainer');
-            container.innerHTML = '';
-
-            items.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center justify-between bg-ggcard border border-neutral-800 px-3 py-2 rounded-xl text-sm group hover:border-red-600/50 transition';
-                div.innerHTML = `
-                    <div class="flex items-center gap-2.5 truncate">
-                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${wheelColors[index % wheelColors.length]}"></span>
-                        <span class="text-gray-200 truncate font-medium">${escapeHtml(item)}</span>
-                    </div>
-                    <button onclick="removeItem(${index})" class="text-gray-500 hover:text-red-500 transition p-1">
-                        <i class="fa-solid fa-trash text-xs"></i>
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-
-            document.getElementById('itemCountBadge').textContent = items.length + ' Seçenek';
-            document.getElementById('listCount').textContent = items.length;
-        }
-
-        function addItem() {
-            const input = document.getElementById('newItemInput');
-            const val = input.value.trim();
-            if (val) {
-                items.push(val);
-                input.value = '';
-                saveItemsToStorage();
-                updateItemListUI();
-                drawWheel();
-            }
-        }
-
-        document.getElementById('newItemInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addItem();
-            }
-        });
-
-        function removeItem(index) {
-            if (items.length <= 1) {
-                alert('Çarkta en az 1 seçenek kalmalıdır!');
-                return;
-            }
-            items.splice(index, 1);
-            saveItemsToStorage();
-            updateItemListUI();
-            drawWheel();
-        }
-
-        function clearItems() {
-            if (confirm('Tüm seçenekleri silmek istediğinize emin misiniz?')) {
-                items = [];
-                saveItemsToStorage();
-                updateItemListUI();
-                drawWheel();
-            }
-        }
-
-        function resetDefaultItems() {
-            items = [...defaultItems];
-            saveItemsToStorage();
-            updateItemListUI();
-            drawWheel();
-        }
-
-        function shuffleItems() {
-            for (let i = items.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [items[i], items[j]] = [items[j], items[i]];
-            }
-            saveItemsToStorage();
-            updateItemListUI();
-            drawWheel();
-        }
-
-        // Saved Wheels Management Features
-        function saveCurrentWheel() {
-            const nameInput = document.getElementById('saveWheelNameInput');
-            const wheelName = nameInput.value.trim() || ('Çark ' + new Date().toLocaleDateString());
-            
-            if (items.length === 0) {
-                alert('Boş çark kaydedilemez!');
-                return;
-            }
-
-            let savedWheels = [];
-            const existing = localStorage.getItem(STORAGE_KEY_SAVED);
-            if (existing) {
-                try { savedWheels = JSON.parse(existing); } catch(e) {}
-            }
-
-            // Check if name exists, update or push
-            const index = savedWheels.findIndex(w => w.name === wheelName);
-            if (index >= 0) {
-                savedWheels[index].items = [...items];
-            } else {
-                savedWheels.push({ name: wheelName, items: [...items] });
-            }
-
-            localStorage.setItem(STORAGE_KEY_SAVED, JSON.stringify(savedWheels));
-            nameInput.value = '';
-            alert('Çark başarıyla kaydedildi!');
-        }
-
-        function openSavedWheelsModal() {
-            const modal = document.getElementById('savedWheelsModal');
-            const listContainer = document.getElementById('savedWheelsList');
-            listContainer.innerHTML = '';
-
-            let savedWheels = [];
-            const existing = localStorage.getItem(STORAGE_KEY_SAVED);
-            if (existing) {
-                try { savedWheels = JSON.parse(existing); } catch(e) {}
-            }
-
-            if (savedWheels.length === 0) {
-                listContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-6">Henüz kayıtlı bir çark bulunmuyor.</p>';
-            } else {
-                savedWheels.forEach((wheel, idx) => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-ggdark border border-neutral-800 p-3 rounded-xl flex items-center justify-between gap-3';
-                    div.innerHTML = `
-                        <div class="truncate">
-                            <h4 class="font-bold text-sm text-white truncate">${escapeHtml(wheel.name)}</h4>
-                            <span class="text-xs text-gray-400">${wheel.items.length} seçenek</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="loadSavedWheel(${idx})" class="bg-ggblue/20 hover:bg-ggblue/30 text-ggblue font-bold px-3 py-1.5 rounded-lg text-xs transition border border-ggblue/30">
-                                Yükle
-                            </button>
-                            <button onclick="deleteSavedWheel(${idx})" class="bg-red-950/40 hover:bg-red-900/50 text-red-400 font-bold px-3 py-1.5 rounded-lg text-xs transition border border-red-900/50">
-                                Sil
-                            </button>
-                        </div>
-                    `;
-                    listContainer.appendChild(div);
-                });
-            }
-
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeSavedWheelsModal() {
-            const modal = document.getElementById('savedWheelsModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function loadSavedWheel(index) {
-            let savedWheels = [];
-            const existing = localStorage.getItem(STORAGE_KEY_SAVED);
-            if (existing) {
-                try {
-                    savedWheels = JSON.parse(existing);
-                    if (savedWheels[index]) {
-                        items = [...savedWheels[index].items];
-                        saveItemsToStorage();
-                        updateItemListUI();
-                        drawWheel();
-                        closeSavedWheelsModal();
-                    }
-                } catch(e) {}
-            }
-        }
-
-        function deleteSavedWheel(index) {
-            let savedWheels = [];
-            const existing = localStorage.getItem(STORAGE_KEY_SAVED);
-            if (existing) {
-                try {
-                    savedWheels = JSON.parse(existing);
-                    savedWheels.splice(index, 1);
-                    localStorage.setItem(STORAGE_KEY_SAVED, JSON.stringify(savedWheels));
-                    openSavedWheelsModal();
-                } catch(e) {}
-            }
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundToggle').checked = soundEnabled;
-            updateSoundButtonUI();
-            saveSettings();
-        }
-
-        function toggleSoundSetting(checkbox) {
-            soundEnabled = checkbox.checked;
-            updateSoundButtonUI();
-            saveSettings();
-        }
-
-        function updateSoundButtonUI() {
-            const btn = document.getElementById('soundBtn');
-            const icon = document.getElementById('soundIcon');
-            if (soundEnabled) {
-                icon.className = 'fa-solid fa-volume-high';
-                btn.querySelector('span').textContent = 'Sesler Açık';
-            } else {
-                icon.className = 'fa-solid fa-volume-xmark';
-                btn.querySelector('span').textContent = 'Sesler Kapalı';
-            }
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        window.onload = function() {
-            loadAppData();
-            updateItemListUI();
-            resizeCanvas();
-        };
-
-        window.onresize = function() {
-            resizeCanvas();
-        };
-    </script>
+    <!-- AYARLAR -->
+    <div class="pane hidden" data-pane="settings">
+      <div class="box">
+        <div class="lbl"><span>Yazılar</span></div>
+        <input class="inp" id="titleInput" maxlength="40" placeholder="Büyük başlık (Cumburluk Çarkı)">
+        <input class="inp" id="subInput" maxlength="30" placeholder="Kırmızı yazı (Seçiyor)">
+        <input class="inp" id="tagInput" maxlength="40" placeholder="Şerit (Random Oyun Yayını)">
+      </div>
+      <div class="box">
+        <div class="lbl"><span>Ekranda göster</span></div>
+        <label class="set"><span>Logo (GG KAAN)</span><span class="sw"><input type="checkbox" data-s="showLogo"><i></i></span></label>
+        <label class="set"><span>Başlıklar</span><span class="sw"><input type="checkbox" data-s="showTitle"><i></i></span></label>
+        <label class="set"><span>Olasılıklar çarkta</span><span class="sw"><input type="checkbox" data-s="showPct"><i></i></span></label>
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:6px"><span>Yayın modu arka planı</span></div>
+        <div class="seg" id="bgSeg">
+          <button type="button" data-bg="theme">Tema</button>
+          <button type="button" data-bg="transparent">Şeffaf</button>
+          <button type="button" data-bg="green">Yeşil Ekran</button>
+        </div>
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:6px"><span>Dönüş süresi</span><span id="durVal"></span></div>
+        <input type="range" id="duration" min="3" max="15" step="1">
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:6px"><span>Kazanan ekranda kalsın</span><span id="holdVal"></span></div>
+        <input type="range" id="hold" min="0" max="15" step="1">
+      </div>
+      <label class="set"><span>Ses efektleri</span><span class="sw"><input type="checkbox" data-s="sound"><i></i></span></label>
+      <label class="set"><span>Konfeti</span><span class="sw"><input type="checkbox" data-s="confetti"><i></i></span></label>
+      <label class="set"><span>Eleme modu<small>Kazanan çarktan otomatik silinir</small></span><span class="sw"><input type="checkbox" data-s="elimination"><i></i></span></label>
+      <div class="note">
+        <b>OBS'e ekleme:</b> Kaynaklar → <b>+</b> → <b>Tarayıcı</b> → “Yerel dosya”yı <u>işaretleme</u>, URL:<br>
+        <code id="obsUrl"></code><br>
+        Genişlik × Yükseklik: <b>1920 × 1080</b>. Çevirmek için kaynağa sağ tık → <b>Etkileşim</b> → <kbd>Boşluk</kbd> ya da çarka tıkla. <kbd>H</kbd> paneli açar.
+      </div>
+    </div>
+
+    <!-- GEÇMİŞ -->
+    <div class="pane hidden" data-pane="history">
+      <div class="stats">
+        <div class="stat"><b id="statTotal">0</b><span>Toplam çevirme</span></div>
+        <div class="stat"><b class="sm" id="statTop">-</b><span>En çok çıkan</span></div>
+      </div>
+      <div class="lbl"><span>Son kazananlar</span></div>
+      <div class="list" id="histList"></div>
+      <button class="btn danger full" type="button" id="clearHist">Geçmişi temizle</button>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="fx px l"></div><div class="fx px r"></div>
+
+    <div class="tl">
+      <div class="logo">
+        <svg viewBox="0 0 64 44" aria-hidden="true"><path d="M4 40 L2 10 L18 24 L32 4 L46 24 L62 10 L60 40 Z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><circle cx="2" cy="10" r="3" fill="#fff"/><circle cx="32" cy="4" r="3" fill="#fff"/><circle cx="62" cy="10" r="3" fill="#fff"/></svg>
+        GG <b>KAAN</b>
+      </div>
+    </div>
+
+    <div class="scene">
+      <div class="wheelbox" id="wheelbox">
+        <svg class="pointer" id="pointer" viewBox="0 0 60 56" aria-hidden="true">
+          <path d="M4 4 H56 L30 52 Z" fill="#ff1a1a" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M12 9 H48 L30 42 Z" fill="#c00000"/>
+        </svg>
+        <canvas id="wheel" aria-label="Çark"></canvas>
+        <button class="hub" id="hub" type="button" aria-label="Çarkı çevir">GG</button>
+        <div class="winner" id="winner"><small>KAZANAN</small><div id="winnerText"></div><em id="winnerNote"></em></div>
+      </div>
+      <div class="titles">
+        <div class="t1" id="t1"></div>
+        <div class="t2" id="t2"></div>
+        <div class="tag" id="tag"></div>
+      </div>
+    </div>
+
+    <button class="spin" id="spinBtn" type="button">ÇEVİR!</button>
+  </main>
+</div>
+
+<canvas id="confetti"></canvas>
+<div id="toast"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= veri ================= */
+// Eski sürümlerle aynı anahtarlar: kayıtlı çarklar, liste ve geçmiş korunur
+const K_ITEMS = 'gg_kaan_wheel_items', K_W = 'gg_kaan_wheel_weights', K_SAVED = 'gg_kaan_saved_wheels',
+      K_SET = 'gg_kaan_settings', K_HIST = 'gg_kaan_history';
+const MAX_ITEMS = 100, MAX_LEN = 60, MAX_HIST = 50, TAU = Math.PI * 2, POINTER = -Math.PI / 2;
+const W_MIN = 0.1, W_MAX = 1000;
+
+const DEFAULT_ITEMS = ['Minecraft','Roblox','Valorant','CS2','GTA V','Fortnite','Among Us','Sürpriz Oyun ❓'];
+const TEMPLATES = [
+  {name:'Random Oyun', items:['Minecraft','Roblox','Valorant','CS2','GTA V','Fortnite','Among Us','Sürpriz Oyun ❓']},
+  {name:'Roblox × Minecraft × ?', items:['Minecraft','Roblox','Sürpriz Oyun ❓'], weights:[45,45,10]},
+  {name:'Yayın Cezaları', items:['10 Şınav','Şarkı Söyle','5 dk Aksanla Konuş','Sadece Kılıçla Oyna','Skini Sohbet Seçsin','2 dk Mikrofon Kapalı','Ters Kontrolle Oyna','Ceza Yok, Şanslısın!']},
+  {name:'Minecraft Ödülleri', items:['Elmas Kılıç','Netherite Zırh','64 Elmas','Elytra','Ölümsüzlük Totemi','Büyülü Altın Elma','Beacon','Boş Çıktı 😢'], weights:[15,5,10,5,10,15,5,35]},
+  {name:'Minecraft Görevleri', items:['Ender Ejderhasını Kes',"Wither'ı Yen",'Nether Kalesi Bul','Elmas Madeni Kaz','Köy Bul ve Ticaret Yap','Elle Bir Gece Hayatta Kal','Parkur Haritası Bitir','Dev Bir Ev İnşa Et']},
+  {name:'Evet / Hayır', items:['Evet','Hayır','Belki','Tekrar Çevir']},
+];
+
+function load(k, fb){ try{ const r = localStorage.getItem(k); return r ? JSON.parse(r) : fb; }catch(e){ return fb; } }
+function store(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){ toast('Kaydedilemedi (tarayıcı depolaması kapalı olabilir).'); } }
+const W = v => { v = parseFloat(v); return isFinite(v) ? Math.min(W_MAX, Math.max(W_MIN, v)) : 1; };
+function mkItems(names, weights){
+  if(!Array.isArray(names)) return null;
+  const out = [];
+  names.forEach((s, i) => {
+    if(typeof s !== 'string' && typeof s !== 'number') return;
+    const t = String(s).trim().slice(0, MAX_LEN);
+    if(t && out.length < MAX_ITEMS) out.push({t, w: W(Array.isArray(weights) ? weights[i] : 1)});
+  });
+  return out;
+}
+const savedWheels = () => (Array.isArray(load(K_SAVED, [])) ? load(K_SAVED, []) : [])
+  .filter(w => w && typeof w.name === 'string' && Array.isArray(w.items))
+  .map(w => ({name: w.name, items: mkItems(w.items, w.weights) || []}));
+const getHistory = () => (Array.isArray(load(K_HIST, [])) ? load(K_HIST, []) : [])
+  .filter(h => h && typeof h.text === 'string' && typeof h.time === 'number');
+
+const DEFAULT_SET = {v:2, sound:true, confetti:true, elimination:false,
+  title:'Cumburluk Çarkı', sub:'Seçiyor', tag:'Random Oyun Yayını',
+  showLogo:true, showTitle:true, showPct:true,
+  bg:'theme', duration:7, hold:6};
+function loadSettings(){
+  const s = load(K_SET, {}) || {};
+  if(s.v !== 2){ // önceki sürümden gelen görünüm ayarlarını yeni temaya taşı
+    return Object.assign({}, DEFAULT_SET, {sound: s.sound ?? true, confetti: s.confetti ?? true, elimination: !!s.elimination});
+  }
+  return Object.assign({}, DEFAULT_SET, s);
+}
+let items = mkItems(load(K_ITEMS, null), load(K_W, null)) || mkItems(DEFAULT_ITEMS);
+let S = loadSettings();
+
+/* ================= yardımcılar ================= */
+const $ = id => document.getElementById(id);
+let toastT;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2200);
+}
+const total = () => items.reduce((s, x) => s + x.w, 0);
+const pctNum = w => { const T = total(); return T ? w / T * 100 : 0; };
+const pctStr = w => { const p = pctNum(w); return '%' + p.toLocaleString('tr-TR', {maximumFractionDigits: p < 10 ? 1 : 0}); };
+// Gökkuşağı: kırmızıdan mora
+const colorOf = i => `hsl(${Math.round(i / Math.max(1, items.length) * 300)},92%,${i % 2 ? 47 : 52}%)`;
+const fmtW = w => (Math.round(w * 10) / 10).toString();
+// confirm() OBS'te çalışmaz: butona ikinci kez basınca onayla
+function confirmClick(btn, label, action){
+  if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent = btn.dataset.orig; action(); return; }
+  btn.dataset.orig = btn.textContent; btn.dataset.armed = 1; btn.textContent = label;
+  setTimeout(() => { if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent = btn.dataset.orig; } }, 3000);
+}
+
+/* ================= senkron (aynı tarayıcıdaki sekmeler / OBS dock) ================= */
+const bc = 'BroadcastChannel' in window ? new BroadcastChannel('ggkaan-cark') : null;
+const send = m => { try{ bc && bc.postMessage(m); }catch(e){} };
+function commit(){
+  store(K_ITEMS, items.map(x => x.t)); store(K_W, items.map(x => x.w)); store(K_SET, S);
+  send({type:'sync', names: items.map(x => x.t), weights: items.map(x => x.w), S});
+  renderAll();
+}
+
+/* ================= ses ================= */
+let ac;
+function audio(){
+  try{
+    if(!ac){ const A = window.AudioContext || window.webkitAudioContext; if(!A) return null; ac = new A(); }
+    if(ac.state === 'suspended') ac.resume();
+    return ac;
+  }catch(e){ return null; }
+}
+function beep(f, t0, len, type, vol){
+  const a = audio(); if(!a) return;
+  const t = a.currentTime + t0, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + len);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + len + .01);
+}
+function tickSound(){
+  if(!S.sound) return; const a = audio(); if(!a) return;
+  const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+  o.type = 'triangle'; o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(180, t + .045);
+  g.gain.setValueAtTime(.09, t); g.gain.exponentialRampToValueAtTime(.001, t + .05);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + .06);
+}
+function winSound(){ if(S.sound) [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => beep(f, i * .11, .35, 'square', .07)); }
+
+/* ================= çark çizimi ================= */
+// Çark bir kez görünmez tuvale çizilir, dönerken sadece döndürülmüş resim basılır (düşük CPU)
+const cv = $('wheel'), cx = cv.getContext('2d');
+const off = document.createElement('canvas');
+let angle = 0, spinning = false, starts = [0];
+
+function fit(c, text, max){
+  if(c.measureText(text).width <= max * 1.02) return text;
+  let t = text; while(t.length > 1 && c.measureText(t + '…').width > max) t = t.slice(0, -1);
+  return t.trimEnd() + '…';
+}
+function buildWheel(){
+  const size = cv.width; if(!size) return;
+  off.width = off.height = size;
+  const c = off.getContext('2d'), r = size / 2, R = r * .9, n = items.length, T = total();
+  const FONT = 'Rubik, "Segoe UI", sans-serif';
+  c.clearRect(0, 0, size, size); c.save(); c.translate(r, r);
+
+  // siyah kalın halka + kırmızı neon kenar
+  c.beginPath(); c.arc(0, 0, r * .995, 0, TAU); c.fillStyle = '#050000'; c.fill();
+  c.beginPath(); c.arc(0, 0, r * .975, 0, TAU); c.strokeStyle = '#ff1a1a'; c.lineWidth = r * .018;
+  c.shadowColor = '#ff0000'; c.shadowBlur = r * .05; c.stroke(); c.shadowBlur = 0;
+  c.beginPath(); c.arc(0, 0, R + r * .012, 0, TAU); c.strokeStyle = '#2a0000'; c.lineWidth = r * .02; c.stroke();
+
+  starts = [0];
+  if(!n){
+    c.beginPath(); c.arc(0, 0, R, 0, TAU); c.fillStyle = '#140606'; c.fill();
+    c.fillStyle = '#b39a9a'; c.font = `700 ${r * .07}px ${FONT}`;
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('Seçenek ekle', 0, -r * .5);
+    c.restore(); return;
+  }
+  let a = 0;
+  for(let i = 0; i < n; i++){ a += items[i].w / T * TAU; starts.push(a); }
+  starts[n] = TAU;
+  for(let i = 0; i < n; i++){
+    c.beginPath(); c.moveTo(0, 0); c.arc(0, 0, R, starts[i], starts[i + 1]); c.closePath();
+    c.fillStyle = colorOf(i); c.fill();
+  }
+  // parlama + kenar gölgesi
+  const sh = c.createRadialGradient(0, 0, R * .2, 0, 0, R);
+  sh.addColorStop(0, 'rgba(255,255,255,.18)'); sh.addColorStop(.65, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,.38)');
+  c.beginPath(); c.arc(0, 0, R, 0, TAU); c.fillStyle = sh; c.fill();
+  // ayırıcılar
+  if(n > 1){
+    c.strokeStyle = 'rgba(0,0,0,.5)'; c.lineWidth = Math.max(1.5, r * .007);
+    for(let i = 0; i < n; i++){ c.beginPath(); c.moveTo(0, 0); c.lineTo(Math.cos(starts[i]) * R, Math.sin(starts[i]) * R); c.stroke(); }
+  }
+  // yazılar: dilim büyüklüğüne göre boyut; önce küçült, sığmazsa kısalt
+  const outer = R * .93, inner = r * .34, room = outer - inner;
+  c.textBaseline = 'middle'; c.lineJoin = 'round'; c.fillStyle = '#fff';
+  for(let i = 0; i < n; i++){
+    const frac = items[i].w / T, arcH = frac * TAU * (inner + room * .55);
+    let f = Math.max(r * .032, Math.min(r * .09, arcH * .62));
+    c.save(); c.rotate((starts[i] + starts[i + 1]) / 2);
+    let x = outer;
+    if(S.showPct && n > 1){
+      const pf = f * .72, p = pctStr(items[i].w);
+      c.font = `900 ${pf}px ${FONT}`; c.textAlign = 'right';
+      c.lineWidth = pf * .28; c.strokeStyle = 'rgba(0,0,0,.75)';
+      c.strokeText(p, x, 0); c.fillStyle = '#fff'; c.fillText(p, x, 0);
+      x -= c.measureText(p).width + f * .45;
+    }
+    const space = x - inner;
+    c.font = `900 ${f}px ${FONT}`;
+    const w = c.measureText(items[i].t).width;
+    if(w > space){ f = Math.max(r * .03, f * space / w * .96); c.font = `900 ${f}px ${FONT}`; }
+    c.textAlign = 'right'; c.lineWidth = f * .24; c.strokeStyle = 'rgba(0,0,0,.6)';
+    const t = fit(c, items[i].t, space);
+    c.strokeText(t, x, 0); c.fillStyle = '#fff'; c.fillText(t, x, 0);
+    c.restore();
+  }
+  // halka üstünde ışıklar
+  const bulbs = 24;
+  for(let i = 0; i < bulbs; i++){
+    const b = i / bulbs * TAU;
+    c.beginPath(); c.arc(Math.cos(b) * r * .945, Math.sin(b) * r * .945, r * .012, 0, TAU);
+    c.fillStyle = i % 2 ? '#ff4d4d' : '#ffffff'; c.fill();
+  }
+  c.restore();
+}
+function draw(){
+  const s = cv.width; if(!s) return;
+  cx.clearRect(0, 0, s, s); cx.save(); cx.translate(s / 2, s / 2); cx.rotate(angle); cx.drawImage(off, -s / 2, -s / 2); cx.restore();
+}
+function resize(){
+  const w = Math.round(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1));
+  if(w && w !== cv.width){ cv.width = cv.height = w; buildWheel(); draw(); }
+}
+function indexAt(a){
+  const local = (((POINTER - a) % TAU) + TAU) % TAU;
+  for(let i = 0; i < items.length; i++) if(local < starts[i + 1]) return i;
+  return items.length - 1;
+}
+
+/* ================= çevirme ================= */
+// Dilimler şansla orantılı olduğu için rastgele bir açı seçmek = ağırlıklı kura
+let lastWinner = null, holdT = null;
+function spin(){
+  if(spinning) return;
+  if($('winner').classList.contains('show')){ closeWinner(); return; }
+  if(!items.length){ toast('Önce çarka seçenek ekle!'); return; }
+  audio();
+  const from = ((angle % TAU) + TAU) % TAU;
+  const to = from + (5 + Math.floor(Math.random() * 4)) * TAU + Math.random() * TAU;
+  send({type:'spin', from, to, dur: S.duration * 1000});
+  run(from, to, S.duration * 1000, true);
+}
+function run(from, to, dur, owner){
+  spinning = true; setSpinUI(true);
+  const t0 = performance.now(), ptr = $('pointer');
+  let lastIdx = indexAt(from), lastTick = 0;
+  (function frame(now){
+    const p = Math.min((now - t0) / dur, 1);
+    angle = from + (to - from) * (1 - Math.pow(1 - p, 4));
+    const idx = indexAt(angle);
+    if(idx !== lastIdx){
+      lastIdx = idx;
+      if(now - lastTick > 45){ lastTick = now; tickSound(); ptr.classList.remove('tick'); void ptr.offsetWidth; ptr.classList.add('tick'); }
+    }
+    draw();
+    if(p < 1) requestAnimationFrame(frame);
+    else { angle = ((angle % TAU) + TAU) % TAU; spinning = false; setSpinUI(false); finish(owner); }
+  })(t0);
+}
+function setSpinUI(on){ $('spinBtn').disabled = on; $('hub').disabled = on; $('spinBtn').textContent = on ? 'DÖNÜYOR…' : 'ÇEVİR!'; }
+function finish(owner){
+  const i = indexAt(angle), it = items[i];
+  lastWinner = {text: it.t, index: i, owner};
+  winSound();
+  if(owner){
+    const h = getHistory(); h.unshift({text: it.t, time: Date.now()}); store(K_HIST, h.slice(0, MAX_HIST));
+    renderHistory();
+  }
+  // kelimeler bölünmesin: taşıyorsa sığana kadar küçült
+  const wt = $('winnerText');
+  wt.textContent = it.t;
+  let fs = it.t.length > 22 ? 6.5 : 9;
+  wt.style.fontSize = fs + 'cqmin';
+  for(let k = 0; k < 20 && wt.scrollWidth > wt.clientWidth + 1; k++){ fs *= .9; wt.style.fontSize = fs + 'cqmin'; }
+  $('winnerNote').textContent = (items.length > 1 ? pctStr(it.w) + ' şansla çıktı' : '') + (S.elimination ? ' · çarktan çıkarılıyor' : '');
+  $('winner').classList.add('show');
+  if(S.confetti) confetti();
+  clearTimeout(holdT);
+  if(S.hold > 0) holdT = setTimeout(closeWinner, S.hold * 1000);
+}
+function closeWinner(){
+  clearTimeout(holdT);
+  if(!$('winner').classList.contains('show')) return;
+  $('winner').classList.remove('show');
+  if(S.elimination && lastWinner && lastWinner.owner){
+    let i = lastWinner.index; if(!items[i] || items[i].t !== lastWinner.text) i = items.findIndex(x => x.t === lastWinner.text);
+    if(i >= 0){ items.splice(i, 1); commit(); }
+  }
+  lastWinner = null;
+}
+
+/* ================= konfeti (kütüphanesiz, bitince durur) ================= */
+const cf = $('confetti'), cfx = cf.getContext('2d');
+let parts = [], cfRun = false, CW = 0, CH = 0;
+function confetti(){
+  CW = cf.width = innerWidth; CH = cf.height = innerHeight;
+  const cols = ['#ff1a1a','#ffffff','#b00000','#ff6b6b','#ffd400','#ffffff'];
+  for(let i = 0; i < 180; i++){
+    const left = i % 2 === 0, a = (left ? -Math.PI / 3 : -2 * Math.PI / 3) + (Math.random() - .5) * .7;
+    const v = (14 + Math.random() * 12) * CH / 900;
+    parts.push({x: left ? 0 : CW, y: CH, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: 6 + Math.random() * 7,
+      r: Math.random() * TAU, vr: (Math.random() - .5) * .4, c: cols[i % cols.length], life: 0});
+  }
+  if(cfRun) return; cfRun = true;
+  (function f(){
+    cfx.clearRect(0, 0, CW, CH);
+    parts = parts.filter(p => p.y < CH + 40 && p.life < 300);
+    for(const p of parts){
+      p.life++; p.vy += .32 * CH / 900; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      cfx.save(); cfx.translate(p.x, p.y); cfx.rotate(p.r); cfx.fillStyle = p.c; cfx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s); cfx.restore();
+    }
+    if(parts.length) requestAnimationFrame(f); else { cfx.clearRect(0, 0, CW, CH); cfRun = false; }
+  })();
+}
+
+/* ================= arayüz ================= */
+function renderList(){
+  const box = $('itemList'); box.textContent = '';
+  if(!items.length) box.innerHTML = '<div class="empty">Liste boş. Yukarıdan seçenek ekle.</div>';
+  items.forEach((it, i) => {
+    const row = document.createElement('div'); row.className = 'item';
+    const dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = dot.style.color = colorOf(i);
+    const t = document.createElement('span'); t.className = 't'; t.textContent = it.t; t.title = 'Düzenlemek için tıkla';
+    const wi = document.createElement('input'); wi.className = 'wi'; wi.type = 'number'; wi.min = W_MIN; wi.step = 'any'; wi.value = fmtW(it.w); wi.title = 'Şans';
+    const pc = document.createElement('span'); pc.className = 'pct'; pc.textContent = pctStr(it.w);
+    const del = document.createElement('button'); del.className = 'ib'; del.type = 'button'; del.textContent = '✕'; del.title = 'Sil';
+    t.onclick = () => edit(t, i);
+    wi.onchange = () => { if(guard()){ wi.value = fmtW(it.w); return; } it.w = W(wi.value); commit(); };
+    wi.onkeydown = e => { if(e.key === 'Enter') wi.blur(); };
+    del.onclick = () => { if(guard()) return; items.splice(i, 1); commit(); };
+    row.append(dot, t, wi, pc, del); box.append(row);
+  });
+  $('count').textContent = items.length;
+}
+function edit(span, i){
+  if(guard()) return;
+  const inp = document.createElement('input'); inp.className = 'e'; inp.maxLength = MAX_LEN; inp.value = items[i].t;
+  span.replaceWith(inp); inp.focus(); inp.select();
+  let done = false;
+  const end = save => { if(done) return; done = true; const v = inp.value.trim(); if(save && v && !spinning){ items[i].t = v; commit(); } else renderList(); };
+  inp.onkeydown = e => { if(e.key === 'Enter') end(true); if(e.key === 'Escape'){ e.stopPropagation(); end(false); } };
+  inp.onblur = () => end(true);
+}
+function guard(){ if(spinning){ toast('Çark dönerken liste değiştirilemez.'); return true; } return false; }
+function addItem(){
+  if(guard()) return;
+  const inp = $('newItem'), v = inp.value.trim();
+  if(!v) return inp.focus();
+  if(items.length >= MAX_ITEMS) return toast(`En fazla ${MAX_ITEMS} seçenek eklenebilir.`);
+  items.push({t: v.slice(0, MAX_LEN), w: W($('newW').value)}); inp.value = ''; $('newW').value = 1; inp.focus(); commit();
+}
+
+function loadWheel(list, name){
+  if(guard() || !list.length) return;
+  items = list.map(x => ({t: x.t, w: x.w})); $('saveName').value = name; commit(); toast(`"${name}" yüklendi.`);
+}
+function renderWheels(){
+  const box = $('savedList'); box.textContent = '';
+  const list = savedWheels();
+  if(!list.length) box.innerHTML = '<div class="empty">Henüz kayıtlı çark yok.</div>';
+  list.forEach((w, i) => {
+    const row = document.createElement('div'); row.className = 'item';
+    const t = document.createElement('span'); t.className = 't'; t.style.cursor = 'default'; t.textContent = w.name;
+    const n = document.createElement('small'); n.style.color = 'var(--muted)'; n.textContent = ` · ${w.items.length}`; t.append(n);
+    const ld = document.createElement('button'); ld.className = 'btn'; ld.type = 'button'; ld.textContent = 'Yükle'; ld.style.padding = '6px 10px';
+    const del = document.createElement('button'); del.className = 'ib'; del.type = 'button'; del.textContent = '✕'; del.title = 'Sil';
+    ld.onclick = () => loadWheel(w.items, w.name);
+    del.onclick = () => confirmClick(del, 'Sil?', () => {
+      const l = savedWheels().map(x => ({name: x.name, items: x.items.map(y => y.t), weights: x.items.map(y => y.w)}));
+      l.splice(i, 1); store(K_SAVED, l); renderWheels();
+    });
+    row.append(t, ld, del); box.append(row);
+  });
+  const tb = $('tplList'); tb.textContent = '';
+  TEMPLATES.forEach(tp => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'tpl';
+    const h = document.createElement('b'); h.textContent = tp.name;
+    const s = document.createElement('span'); s.textContent = tp.items.join(', ');
+    b.append(h, s); b.onclick = () => loadWheel(mkItems(tp.items, tp.weights), tp.name);
+    tb.append(b);
+  });
+}
+function saveWheel(){
+  if(!items.length) return toast('Boş çark kaydedilemez!');
+  const name = ($('saveName').value.trim() || 'Çark ' + new Date().toLocaleString('tr-TR', {dateStyle:'short', timeStyle:'short'})).slice(0, 40);
+  const l = savedWheels().map(w => ({name: w.name, items: w.items.map(x => x.t), weights: w.items.map(x => x.w)}));
+  const i = l.findIndex(w => w.name === name), rec = {name, items: items.map(x => x.t), weights: items.map(x => x.w)};
+  if(i >= 0) l[i] = rec; else l.push(rec);
+  store(K_SAVED, l); renderWheels(); toast(i >= 0 ? `"${name}" güncellendi.` : `"${name}" kaydedildi.`);
+}
+
+function renderHistory(){
+  const h = getHistory(), box = $('histList'); box.textContent = '';
+  $('statTotal').textContent = h.length;
+  const cnt = {}; let top = null;
+  h.forEach(x => { cnt[x.text] = (cnt[x.text] || 0) + 1; if(!top || cnt[x.text] > cnt[top]) top = x.text; });
+  $('statTop').textContent = top ? `${top} (${cnt[top]}x)` : '-'; $('statTop').title = top || '';
+  if(!h.length) box.innerHTML = '<div class="empty">Henüz çark çevrilmedi.</div>';
+  h.forEach(x => {
+    const row = document.createElement('div'); row.className = 'hist';
+    const t = document.createElement('span'); t.className = 't'; t.textContent = x.text;
+    const s = document.createElement('small'); s.textContent = new Date(x.time).toLocaleString('tr-TR', {dateStyle:'short', timeStyle:'short'});
+    row.append(t, s); box.append(row);
+  });
+}
+
+function renderSettings(){
+  $('t1').textContent = S.title; $('t2').textContent = S.sub; $('tag').textContent = S.tag;
+  [['titleInput','title'],['subInput','sub'],['tagInput','tag']].forEach(([id, k]) => {
+    if(document.activeElement !== $(id)) $(id).value = S[k];
+  });
+  document.querySelectorAll('[data-s]').forEach(el => { el.checked = !!S[el.dataset.s]; });
+  $('duration').value = S.duration; $('durVal').textContent = S.duration + ' sn';
+  $('hold').value = S.hold; $('holdVal').textContent = S.hold ? S.hold + ' sn' : 'tıklayana kadar';
+  document.querySelectorAll('#bgSeg button').forEach(b => b.classList.toggle('on', b.dataset.bg === S.bg));
+  const cl = document.body.classList;
+  cl.remove('bg-theme', 'bg-transparent', 'bg-green'); cl.add('bg-' + S.bg);
+  cl.toggle('no-logo', !S.showLogo);
+  cl.toggle('no-title', !S.showTitle); cl.toggle('no-sub', !S.sub.trim()); cl.toggle('no-tag', !S.tag.trim());
+  $('soundBtn').textContent = S.sound ? '🔊 Ses Açık' : '🔇 Ses Kapalı';
+  requestAnimationFrame(resize);
+}
+function renderAll(){ renderList(); renderSettings(); buildWheel(); draw(); }
+
+function setStream(on){
+  document.body.classList.toggle('stream', on);
+  try{ history.replaceState(null, '', on ? '#yayin' : location.pathname + location.search); }catch(e){}
+  requestAnimationFrame(resize);
+}
+
+/* ================= olaylar ================= */
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('[data-pane]').forEach(p => p.classList.toggle('hidden', p.dataset.pane !== b.dataset.tab));
+  if(b.dataset.tab === 'history') renderHistory();
+});
+$('addBtn').onclick = addItem;
+$('newItem').onkeydown = $('newW').onkeydown = e => { if(e.key === 'Enter' && !e.isComposing){ e.preventDefault(); addItem(); } };
+$('bulkToggle').onclick = () => { $('bulkBox').classList.toggle('hidden'); $('bulkInput').focus(); };
+$('bulkAdd').onclick = () => {
+  if(guard()) return;
+  // "isim | şans" ya da "isim = şans"
+  const parsed = $('bulkInput').value.split(/\r?\n/).map(l => {
+    const m = l.match(/^(.*?)\s*[|=]\s*([\d.,]+)\s*%?\s*$/);
+    return m ? {t: m[1], w: m[2].replace(',', '.')} : {t: l, w: 1};
+  });
+  const lines = mkItems(parsed.map(x => x.t), parsed.map(x => x.w)) || [];
+  if(!lines.length) return toast('En az bir satır yaz.');
+  const base = $('bulkReplace').checked ? [] : items, add = lines.slice(0, Math.max(0, MAX_ITEMS - base.length));
+  items = base.concat(add); commit(); $('bulkInput').value = ''; $('bulkBox').classList.add('hidden');
+  toast(add.length < lines.length ? `${add.length} seçenek eklendi (en fazla ${MAX_ITEMS}).` : `${add.length} seçenek eklendi.`);
+};
+$('equalBtn').onclick = () => { if(guard() || !items.length) return; items.forEach(x => x.w = 1); commit(); toast('Tüm şanslar eşitlendi.'); };
+$('shuffleBtn').onclick = () => {
+  if(guard() || items.length < 2) return;
+  for(let i = items.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
+  commit();
+};
+$('clearBtn').onclick = e => { if(guard() || !items.length) return; confirmClick(e.currentTarget, 'Emin misin?', () => { items = []; commit(); }); };
+$('saveBtn').onclick = saveWheel;
+$('saveName').onkeydown = e => { if(e.key === 'Enter'){ e.preventDefault(); saveWheel(); } };
+$('clearHist').onclick = e => { if(!getHistory().length) return; confirmClick(e.currentTarget, 'Emin misin?', () => { store(K_HIST, []); renderHistory(); }); };
+
+[['titleInput','title'],['subInput','sub'],['tagInput','tag']].forEach(([id, k]) => {
+  $(id).oninput = e => { S[k] = e.target.value; commit(); };
+});
+document.querySelectorAll('[data-s]').forEach(el => el.onchange = () => { S[el.dataset.s] = el.checked; if(el.dataset.s === 'sound' && S.sound) audio(); commit(); });
+$('duration').oninput = e => { S.duration = +e.target.value; commit(); };
+$('hold').oninput = e => { S.hold = +e.target.value; commit(); };
+document.querySelectorAll('#bgSeg button').forEach(b => b.onclick = () => { S.bg = b.dataset.bg; commit(); });
+$('soundBtn').onclick = () => { S.sound = !S.sound; if(S.sound) audio(); commit(); };
+$('streamBtn').onclick = () => { setStream(true); toast('Panele dönmek için H tuşuna bas'); };
+
+$('spinBtn').onclick = spin; $('hub').onclick = spin; cv.onclick = spin;
+$('winner').onclick = closeWinner;
+
+document.addEventListener('keydown', e => {
+  const tag = e.target.tagName || '';
+  if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if(e.code === 'Space' && !e.repeat){ e.preventDefault(); spin(); }
+  else if(e.key === 'Enter' || e.key === 'Escape') closeWinner();
+  else if(e.key === 'h' || e.key === 'H') setStream(!document.body.classList.contains('stream'));
+});
+
+if(bc) bc.onmessage = e => {
+  const m = e.data || {};
+  if(m.type === 'spin' && !spinning){ closeWinner(); run(m.from, m.to, m.dur, false); }
+  if(m.type === 'sync' && !spinning){ items = mkItems(m.names, m.weights) || items; S = Object.assign({}, DEFAULT_SET, m.S); renderAll(); }
+};
+addEventListener('storage', e => {
+  if(spinning) return;
+  if(e.key === K_ITEMS || e.key === K_W){ items = mkItems(load(K_ITEMS, null), load(K_W, null)) || items; renderAll(); }
+  if(e.key === K_SET){ S = loadSettings(); renderAll(); }
+  if(e.key === K_SAVED) renderWheels();
+  if(e.key === K_HIST) renderHistory();
+});
+
+/* ================= başlat ================= */
+$('obsUrl').textContent = location.href.split('#')[0] + '#yayin';
+renderAll(); renderWheels(); renderHistory();
+if(location.hash === '#yayin') setStream(true);
+new ResizeObserver(resize).observe(cv);
+if(document.fonts){
+  document.fonts.load('900 20px Rubik').then(() => { buildWheel(); draw(); }).catch(() => {});
+  document.fonts.ready.then(() => { buildWheel(); draw(); });
+}
+})();
+</script>
 </body>
 </html>
